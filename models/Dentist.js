@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const HospitalSchema = new mongoose.Schema({
+const DentistSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true,'Please add a name'],
@@ -8,49 +8,33 @@ const HospitalSchema = new mongoose.Schema({
         trim: true,
         maxlength:[50,'Name can not be more than 50 characters']
     },
-    address:{
+    yearsOfExperience:{
         type: String,
-        required: [true,'Please add an address']
+        required: [true,'Please add an years of experience']
     },
-    district:{
+    areaOfExpertise:{
         type: String,
-        required: [true,'Please add a district']
-    },
-    province:{
-        type: String,
-        required: [true,'Please add a province']
-    },
-    postalcode:{
-        type: String,
-        required: [true,'Please add a postalcode'],
-        maxlength:[5,'Postal Code can not be more than 5 digits']
-    },
-    tel:{
-        type: String
-    },
-    region:{
-        type: String,
-        required: [true,'Please add a region']
+        required: [true,'Please add a area of expertise']
     }
-    
+
 },{
     toJSON: {virtuals:true},
     toObject: {virtuals:true}
 });
 
 //Reverse populate with virtuals
-HospitalSchema.virtual('appointments',{
+DentistSchema.virtual('appointments',{
     ref: 'Appointment',
     localField: '_id',
-    foreignField: 'hospital',
+    foreignField: 'dentist',
     justOne: false
 });
 
-//Cascade dalate appointments when a hospital is delete
-HospitalSchema.pre('remove',async function(next){
-    console.log(`Appointments being removed from hospital ${this._id}`);
-    await this.model('Appointment').deleteMany({hospital:this._id});
+//Cascade dalate appointments when a dentist is delete
+DentistSchema.pre('remove',async function(next){
+    console.log(`Appointments being removed from dentist ${this._id}`);
+    await this.model('Appointment').deleteMany({dentist:this._id});
     next();
 })
 
-module.exports=mongoose.model('Hospital',HospitalSchema);
+module.exports=mongoose.model('Dentist',DentistSchema);

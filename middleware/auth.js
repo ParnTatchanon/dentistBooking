@@ -1,4 +1,3 @@
-const e = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
@@ -27,6 +26,7 @@ exports.protect = async (req,res,next) => {
     }
 };
 
+//at the end of file
 //Grant access to specific roles
 exports.authorize = (...roles) => {
     return (req,res,next) => {
