@@ -19,7 +19,7 @@ exports.getDentists= async (req,res,next)=>{
     //Create query string
     let queryStr=JSON.stringify(reqQuery);
     queryStr=queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match=>`$${match}`);
-    query=Dentist.find(JSON.parse(queryStr)).populate({path:'appointments',select: 'apptDate'});
+    query=Dentist.find(JSON.parse(queryStr)).populate({path:'bookings',select: 'apptDate'});
 
     //Select Fields
     if(req.query.select){
