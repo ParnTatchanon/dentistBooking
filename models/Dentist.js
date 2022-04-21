@@ -23,17 +23,17 @@ const DentistSchema = new mongoose.Schema({
 });
 
 //Reverse populate with virtuals
-DentistSchema.virtual('appointments',{
-    ref: 'Appointment',
+DentistSchema.virtual('bookings',{
+    ref: 'Booking',
     localField: '_id',
     foreignField: 'dentist',
     justOne: false
 });
 
-//Cascade dalate appointments when a dentist is delete
+//Cascade dalate bookings when a dentist is delete
 DentistSchema.pre('remove',async function(next){
-    console.log(`Appointments being removed from dentist ${this._id}`);
-    await this.model('Appointment').deleteMany({dentist:this._id});
+    console.log(`Bookings being removed from dentist ${this._id}`);
+    await this.model('Booking').deleteMany({dentist:this._id});
     next();
 })
 
