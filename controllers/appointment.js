@@ -13,8 +13,8 @@ exports.getAppointments=async(req,res,next)=>{
             select: 'name yearsOfExperience areaOfExpertise'
         });
     }else{ //If you are an admin, you can see all!
-        if(req.params.hospitalId){
-            query=Appointment.find({hospital:req.params.hospitalId}).populate({
+        if(req.params.dentistId){
+            query=Appointment.find({dentist:req.params.dentistId}).populate({
                 path:'dentist',
                 select: 'name yearsOfExperience areaOfExpertise'
             });
