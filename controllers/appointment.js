@@ -8,7 +8,7 @@ exports.getAppointments=async(req,res,next)=>{
     let query;
     //General uers can see only their appointments!
     if(req.user.role !== 'admin'){
-        query=Appointment.find({user:req.uer.id}).populate({
+        query=Appointment.find({user:req.user.id}).populate({
             path:'dentist',
             select: 'name yearsOfExperience areaOfExpertise'
         });
