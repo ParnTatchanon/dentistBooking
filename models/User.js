@@ -6,6 +6,12 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true,'Please add a name']
     },
+    telephoneNumber:{
+        type: String,
+        required: [true,'Please add a telephone number'],
+        match: [/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/, 'Enter a valid phone number'],
+        maxlength:[12,'Telephone number can not be more than 12 characters']
+    },
     email:{
         type: String,
         required: [true,'Please add a email'],
