@@ -73,7 +73,7 @@ exports.addAppointment = async(req,res,next)=>{
         //Check for existed appointment
         const existedAppointments=await Appointment.find ({user:req.user.id});
 
-        //If the user is not an admin, théy can only create 3 appointment.
+        //If the user is not an admin, théy can only create 1 appointment.
         if(existedAppointments.length >= 1 && req.user.role !== 'admin'){
             return res.status(400).json({success:false,message:`The user with Id ${req.user.id} user to book only ONE session`});
         }
