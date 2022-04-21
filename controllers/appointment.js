@@ -1,5 +1,5 @@
 const Appointment = require('../models/Appointment');
-const Hospital = require('../models/Dentist');
+const Dentist = require('../models/Dentist');
 
 //@desc    Get all appointments
 //@route   GET /api/v1/appointments
@@ -9,19 +9,19 @@ exports.getAppointments=async(req,res,next)=>{
     //General uers can see only their appointments!
     if(req.user.role !== 'admin'){
         query=Appointment.find({user:req.uer.id}).populate({
-            path:'hospital',
-            select: 'name province tel'
+            path:'dentist',
+            select: 'name yearsOfExperience areaOfExpertise'
         });
     }else{ //If you are an admin, you can see all!
         if(req.params.hospitalId){
             query=Appointment.find({hospital:req.params.hospitalId}).populate({
-                path:'hospital',
-                select: 'name province tel'
+                path:'dentist',
+                select: 'name yearsOfExperience areaOfExpertise'
             });
         } else {
             query=Appointment.find().populate({
-                path:'hospital',
-                select: 'name province tel'
+                path:'dentist',
+                select: 'name yearsOfExperience areaOfExpertise'
             });
         }
     }
@@ -37,14 +37,15 @@ exports.getAppointments=async(req,res,next)=>{
         return res.status(500).json({success:false,message:"Cannot find Appointment"});
     }
 }
+
 //@desc    Get single appointment
 //@route   GET /api/v1/appointments/:id
 //@access  Public
 exports.getAppointment = async(req,res,next)=>{
     try{
         const appointment = await Appointment.findById(req.params.id).populate({
-            path: 'hospital',
-            select: 'name description tel'
+            path: 'dentist',
+            select: 'name yearsOfExperience areaOfExpertise'
         })
         if(!appointment){
             return res.status(404).json({success:false,message:`No appointment with the id of ${req.params.id}`});
@@ -57,14 +58,14 @@ exports.getAppointment = async(req,res,next)=>{
 }
 
 //@desc    Add single appointment
-//@route   POST /api/v1/hospitals/:hospitalId/appointments/
+//@route   POST /api/v1/dentists/:dentistId/appointments/
 //@access  Private
 exports.addAppointment = async(req,res,next)=>{
     try {
-        req.body.hospital = req.params.hospitalId;
-        const hospital = await Hospital.findById(req.params.hospitalId);
-        if(!hospital){
-            return res.status(404).json({success:false,message:`No hospital with the id of ${req.params.hospitalId}`});
+        req.body.dentist = req.params.dentistId;
+        const dentist = await Dentist.findById(req.params.dentistId);
+        if(!dentist){
+            return res.status(404).json({success:false,message:`No dentist with the id of ${req.params.dentistId}`});
         }
 
         //add user Id to req.body
