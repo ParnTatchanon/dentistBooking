@@ -1,7 +1,7 @@
 {
   "name": "dentistbooking",
   "version": "1.0.0",
-  "description": "",
+  "description": "to run the application in development mode </br> npm run dev </br> to run the application in production mode </br> npm start </br>",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,5 +17,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ParnTatchanon/dentistBooking.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ParnTatchanon/dentistBooking/issues"
+  },
+  "homepage": "https://github.com/ParnTatchanon/dentistBooking#readme"
 }
