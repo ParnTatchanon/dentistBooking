@@ -99,6 +99,12 @@ exports.addAppointment = async (req, res, next) => {
         });
     }
 
+    let d1 = new Date();
+    d1.setHours(d1.getHours() + 8);
+    if(new Date(req.body.bookingDate) < d1){
+        return res.status(400).json({success:false,message:`bookingDate must more than 1 hours from the current time ${new Date()}`});
+    }
+
     const booking = await Booking.create(req.body);
     res.status(200).json({ success: true, data: booking });
   } catch (err) {
