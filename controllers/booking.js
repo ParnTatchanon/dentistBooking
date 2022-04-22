@@ -79,6 +79,12 @@ exports.addAppointment = async(req,res,next)=>{
             return res.status(400).json({success:false,message:`The user with Id ${req.user.id} user to book only ONE session`});
         }
 
+        let d1 = new Date();
+        d1.setDate(d1.getDate() + 1);
+        if(new Date(req.body.bookingDate) < d1){
+            return res.status(400).json({success:false,message:"bookingDate must more than 1 day from the current date"});
+        }
+
         const booking = await Booking.create(req.body);
         res.status(200).json({ success:true, data:booking });
 
