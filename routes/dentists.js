@@ -1,14 +1,27 @@
-const express = require('express');
-const {getDentists, getDentist, createDentist, updateDentist,deleteDentist} = require('../controllers/dentist');
+const express = require("express");
+const {
+  getDentists,
+  getDentist,
+  createDentist,
+  updateDentist,
+  deleteDentist,
+} = require("../controllers/dentist");
 const router = express.Router();
-const {protect,authorize} = require ('../middleware/auth');
+const { protect, authorize } = require("../middleware/auth");
 
 //Include other resource routers
-const appointmentRouter=require('./bookings');
+const appointmentRouter = require("./bookings");
 
 //Re-route into other resource routers
-router.use('/:dentistId/bookings/',appointmentRouter);
-router.route('/').get(getDentists).post(protect,authorize('admin'),createDentist);
-router.route('/:id').get(getDentist).put(protect,authorize('admin'),updateDentist).delete(protect,authorize('admin'),deleteDentist);
+router.use("/:dentistId/bookings/", appointmentRouter);
+router
+  .route("/")
+  .get(getDentists)
+  .post(protect, authorize("admin"), createDentist);
+router
+  .route("/:id")
+  .get(getDentist)
+  .put(protect, authorize("admin"), updateDentist)
+  .delete(protect, authorize("admin"), deleteDentist);
 
-module.exports=router;
+module.exports = router;
