@@ -108,7 +108,7 @@ exports.addAppointment = async (req, res, next) => {
         .status(400)
         .json({
           success: false,
-          message: `The BookingDate ${req.body.bookingDate} is already booked by others`,
+          message: `The bookingDate ${req.body.bookingDate} is already booked by others`,
         });
     }
 
