@@ -99,6 +99,19 @@ exports.addAppointment = async (req, res, next) => {
         });
     }
 
+    //Check for existed bookingDate
+    const existedBookingDate = await Booking.find({ bookingDate: req.body.bookingDate });
+
+    //If the user is not an admin, They can only create 1 booking and bookingDate is not match with the other.
+    if (existedBookingDate.length >= 1 && req.user.role !== "admin") {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: `The BookingDate ${req.body.bookingDate} is already booked by others`,
+        });
+    }
+
     let d1 = new Date();
     d1.setHours(d1.getHours() + 8);
     if(new Date(req.body.bookingDate) < d1){
