@@ -100,7 +100,7 @@ exports.addAppointment = async (req, res, next) => {
     }
 
     //Check for existed bookingDate
-    const existedBookingDate = await Booking.find({ bookingDate: req.body.bookingDate });
+    const existedBookingDate = await Booking.find({ bookingDate: req.body.bookingDate, dentist: req.params.dentistId });
 
     //If the user is not an admin, They can only create 1 booking and bookingDate is not match with the other.
     if (existedBookingDate.length >= 1 && req.user.role !== "admin") {
@@ -108,7 +108,7 @@ exports.addAppointment = async (req, res, next) => {
         .status(400)
         .json({
           success: false,
-          message: `The bookingDate ${req.body.bookingDate} is already booked by others`,
+          message: `The bookingDate ${req.body.bookingDate} with dentist ${req.params.dentistId} is already booked by other`,
         });
     }
 
