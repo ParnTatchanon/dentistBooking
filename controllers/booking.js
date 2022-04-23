@@ -4,7 +4,7 @@ const Dentist = require("../models/Dentist");
 //@desc    Get all bookings
 //@route   GET /api/v1/bookings
 //@access  Private
-exports.getAppointments = async (req, res, next) => {
+exports.getBookings = async (req, res, next) => {
   let query;
   //General uers can see only their bookings!
   if (req.user.role !== "admin") {
@@ -44,7 +44,7 @@ exports.getAppointments = async (req, res, next) => {
 //@desc    Get single booking
 //@route   GET /api/v1/bookings/:id
 //@access  Public
-exports.getAppointment = async (req, res, next) => {
+exports.getBooking = async (req, res, next) => {
   try {
     const booking = await Booking.findById(req.params.id).populate({
       path: "dentist",
@@ -70,7 +70,7 @@ exports.getAppointment = async (req, res, next) => {
 //@desc    Add single booking
 //@route   POST /api/v1/dentists/:dentistId/bookings/
 //@access  Private
-exports.addAppointment = async (req, res, next) => {
+exports.addBooking = async (req, res, next) => {
   try {
     req.body.dentist = req.params.dentistId;
     const dentist = await Dentist.findById(req.params.dentistId);
@@ -87,10 +87,10 @@ exports.addAppointment = async (req, res, next) => {
     req.body.user = req.user.id;
 
     //Check for existed booking
-    const existedAppointments = await Booking.find({ user: req.user.id });
+    const existedBookings = await Booking.find({ user: req.user.id });
 
     //If the user is not an admin, théy can only create 1 booking.
-    if (existedAppointments.length >= 1 && req.user.role !== "admin") {
+    if (existedBookings.length >= 1 && req.user.role !== "admin") {
       return res
         .status(400)
         .json({
@@ -131,7 +131,7 @@ exports.addAppointment = async (req, res, next) => {
 //@desc    Update booking
 //@route   PUT /api/v1/bookings/:id
 //@access  Private
-exports.updateAppointment = async (req, res, next) => {
+exports.updateBooking = async (req, res, next) => {
   try {
     let booking = await Booking.findById(req.params.id);
 
@@ -174,7 +174,7 @@ exports.updateAppointment = async (req, res, next) => {
 //@desc     Delete booking
 //@route    DELETE /api/v1/booking/:id
 //@access   Private
-exports.deleteAppointment = async (req, res, next) => {
+exports.deleteBooking = async (req, res, next) => {
   try {
     const booking = await Booking.findById(req.params.id);
 

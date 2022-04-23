@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("./User");
 
-const AppointmentSchema = new mongoose.Schema(
+const BookingSchema = new mongoose.Schema(
   {
     bookingDate: {
       type: Date,
@@ -27,4 +27,4 @@ const AppointmentSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Booking", AppointmentSchema);
+module.exports = mongoose.model("Booking", BookingSchema);
