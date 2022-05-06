@@ -119,7 +119,7 @@ exports.addBooking = async (req, res, next) => {
     }
 
     const booking = await Booking.create(req.body);
-    res.status(200).json({ success: true, data: booking });
+    res.status(201).json({ success: true, data: booking });
   } catch (err) {
     console.log(err.stack);
     return res
@@ -152,6 +152,12 @@ exports.updateBooking = async (req, res, next) => {
           success: false,
           message: `User ${req.user.id} is not authorized to update this booking`,
         });
+    }
+
+    let d1 = new Date();
+    d1.setHours(d1.getHours() + 8);
+    if(new Date(req.body.bookingDate) < d1){
+        return res.status(400).json({success:false,message:`bookingDate must more than 1 hours from the current time ${new Date()}`});
     }
 
     booking = await Booking.findByIdAndUpdate(req.params.id, req.body, {
